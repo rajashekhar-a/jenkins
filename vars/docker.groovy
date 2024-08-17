@@ -25,7 +25,7 @@ def call(Map params = [:]) {
             stage('Docker Build') {
                 steps {
                   sh """
-                  echo ${env}
+                  printenv
                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 975050272810.dkr.ecr.us-east-1.amazonaws.com
                   docker build -t 975050272810.dkr.ecr.us-east-1.amazonaws.com/${params.COMPONENT} .
                   docker tag 975050272810.dkr.ecr.us-east-1.amazonaws.com/${params.COMPONENT}:\${GIT_TAG} 975050272810.dkr.ecr.us-east-1.amazonaws.com/${params.COMPONENT}:latest

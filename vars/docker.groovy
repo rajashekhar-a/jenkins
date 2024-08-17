@@ -23,10 +23,10 @@ def call(Map params = [:]) {
             }
 
             stage('Docker Build') {
+                when {
+                  expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
+                }
                 steps {
-                    when {
-                        expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
-                    }
                   sh """
                   GIT_TAG=`echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`
                   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 975050272810.dkr.ecr.us-east-1.amazonaws.com

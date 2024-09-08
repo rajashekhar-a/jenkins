@@ -13,9 +13,9 @@ pipeline {
     stage('Labeling Build') {
       steps {
         script {
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV : ${ENV}"
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT : ${COMPONENT}"
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION : ${APP_VERSION}"
         }
       }
     }
@@ -31,6 +31,7 @@ pipeline {
         }
         dir('helm'){
           sh '''
+            echo "Deploying APP_VERSION=${APP_VERSION}"
             helm upgrade -i ${COMPONENT} roboshop -f ../app/helm/${ENV}-values.yml
           '''
         }

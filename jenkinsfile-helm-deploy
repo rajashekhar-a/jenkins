@@ -20,6 +20,14 @@ pipeline {
       }
     }
 
+    stage('Check Artifacts') {
+      steps {
+        sh '''
+          aws ecr list-images --repository-name ${COMPONENT} | jq ".imageIds[].imageTag" | grep ${APP_VERSION}
+        '''
+      }
+    }
+
 
     stage('helm-deploy') {
       steps {

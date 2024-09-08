@@ -1,0 +1,42 @@
+pipeline {
+  agent any
+
+  options{
+    ansiColour('xterm')
+  }
+
+  parameters {
+    string(name: 'ENV', defaultValue: '', description: 'Which Environment?')
+    string(name: 'APP_VERSION', defaultValue: '', description: 'Which Version of APP?')
+    string(name: 'COMPONENT', defaultValue: '', description: 'Which App Component?')
+  }
+
+  stages {
+    stage('Labeling Build') {
+      steps {
+        script {
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
+          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
+        }
+      }
+    }
+
+
+    stage('Labeling Build') {
+      steps {
+        dir('app'){
+          git branch: 'main', url: "https://github.com/rajashekhar-a/${COMPONENT}.git"
+        }
+        dir('helm'){
+          git branch: 'main', url: "https://github.com/rajashekhar-a/kubernetes.git"
+        }
+        dir('helm'){
+          sh 'ls -l'
+          sh 'ls -l..'
+        }
+      }
+    }
+
+  }
+}

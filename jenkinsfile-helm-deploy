@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent { 
+    label 'WORKSTATION' 
+  }
 
   options{
     ansiColour('xterm')
@@ -23,7 +25,7 @@ pipeline {
     }
 
 
-    stage('Labeling Build') {
+    stage('helm-deploy') {
       steps {
         dir('app'){
           git branch: 'main', url: "https://github.com/rajashekhar-a/${COMPONENT}.git"

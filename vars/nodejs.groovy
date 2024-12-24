@@ -8,10 +8,10 @@ def call(Map params = [:]) {
     pipeline{
 
         agent {
-            label param.lABEL
+            label params.lABEL
         }
-
         stages{
+
             stage('Build'){
                 steps{
                     sh 'echo build code'

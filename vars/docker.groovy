@@ -4,7 +4,7 @@ def call(Map params = [:]) {
             COMPONENT                  : '',
             LABEL                      : 'master'
     ]
-    args << params
+    args << paramsf  f
 
     pipeline {
         agent {

@@ -15,9 +15,12 @@ def call(Map params = [:]) {
             stage('Download NodeJS Dependencies') {
                 steps {
                     sh """
-                    npm install
+                       echo "+++++++ Before"
+                       ls -l
+                       npm install
+                       echo "+++++++ After"
+                       ls -l
                     """
-
                 }
             }
 

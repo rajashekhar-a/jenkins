@@ -2,7 +2,7 @@ def call(Map params = [:]) {
 
     def args = [
             COMPONENT                  : '',
-            LABEL                      : 'master'
+            LABEL                      : ''
     ]
     args << params
     pipeline{

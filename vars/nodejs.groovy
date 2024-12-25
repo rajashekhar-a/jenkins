@@ -34,7 +34,7 @@ def call(Map params = [:]) {
                         echo "${str}"
                     }
                     when {
-                        expression { "${str}" == main }
+                        expression { "${str}" == "main" }
                     }
                     sh 'echo uplode artifacts'
                 }

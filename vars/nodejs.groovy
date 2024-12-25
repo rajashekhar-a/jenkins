@@ -15,8 +15,8 @@ def call(Map params = [:]) {
             stage('Download NodeJS Dependencies'){
                 steps{
                     sh """
+                    export NODE_NO_WARNINGS=1
                     npm install
-                    npm audit fix --force
                     npm audit
                     """
 

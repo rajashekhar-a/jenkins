@@ -33,7 +33,7 @@ def call(Map params = [:]) {
                         str = GIT_BRANCH.split('/').last()
                         echo "${str}"
                     }
-                    when { branch 'main' }
+                    when { GIT_BRANCH 'main' }
                     sh 'echo uplode artifacts'
                 }
             }

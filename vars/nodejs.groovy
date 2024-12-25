@@ -1,19 +1,19 @@
 def call(Map params = [:]) {
 
     def args = [
-            COMPONENT                  : '',
-            LABEL                      : 'master'
+            COMPONENT: '',
+            LABEL    : 'master'
     ]
     args << params
-    pipeline{
+    pipeline {
 
         agent {
             label params.lABEL
         }
-        stages{
+        stages {
 
-            stage('Download NodeJS Dependencies'){
-                steps{
+            stage('Download NodeJS Dependencies') {
+                steps {
                     sh """
                     npm install
                     """
@@ -21,25 +21,23 @@ def call(Map params = [:]) {
                 }
             }
 
-            stage('test'){
-                steps{
-                sh ' echo test '
+            stage('test') {
+                steps {
+                    sh ' echo test '
                 }
             }
 
-            stage('uplode artifacts'){
-                steps{
-                    script{
-                        str = GIT_BRANCH.split('/').last()
-                        echo "${str}"
+            stage('uplode artifacts') {
+                steps {
+                    script {
+                        def output = sh(script: '${GIT_BRANCH}', returnStdout: true)
+                        echo "output: ${output}"
                     }
-                    when { not { branch 'master' } }
-                    sh 'echo uplode artifacts'
+
                 }
+
             }
 
         }
-
     }
-
 }

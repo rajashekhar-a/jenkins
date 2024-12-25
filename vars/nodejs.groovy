@@ -30,7 +30,7 @@ def call(Map params = [:]) {
             stage('uplode artifacts') {
                 steps {
                     script {
-                        def output = sh(script: '${GIT_BRANCH}', returnStdout: true)
+                        def output = sh(script: "echo${env.GIT_BRANCH}", returnStdout: true)
                         echo "output: ${output}"
                     }
 

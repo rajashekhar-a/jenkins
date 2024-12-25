@@ -34,7 +34,7 @@ def call(Map params = [:]) {
                 when {
                     expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
                 }
-                script {
+                steps {
                    sh'echo upload artifacts'
                 }
 

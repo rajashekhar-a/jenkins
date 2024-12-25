@@ -23,15 +23,19 @@ def call(Map params = [:]) {
 
             stage('test'){
                 steps{
-                    script{
-                    str = GIT_BRANCH.split('/').last()
-                    echo "${str}"
-                    }
+
                 }
             }
 
             stage('uplode artifacts'){
                 steps{
+                    script{
+                        str = GIT_BRANCH.split('/').last()
+                        echo "${str}"
+                    }
+                    when {
+                        expression { "${str}" == main }
+                    }
                     sh 'echo uplode artifacts'
                 }
             }

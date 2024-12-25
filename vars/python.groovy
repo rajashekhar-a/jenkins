@@ -11,15 +11,6 @@ def call(Map params = [:]) {
             label params.lABEL
         }
         stages {
-
-            stage('Maven Package') {
-                steps {
-                    sh """
-                      mvn package
-                    """
-                }
-            }
-
             stage('test') {
                 steps {
                     sh ' echo test '

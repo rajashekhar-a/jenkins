@@ -23,7 +23,7 @@ def call(Map params = [:]) {
 
             stage('test'){
                 steps{
-
+                sh ' echo test '
                 }
             }
 

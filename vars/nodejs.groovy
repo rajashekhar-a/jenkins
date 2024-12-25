@@ -25,7 +25,7 @@ def call(Map params = [:]) {
                 steps{
                     script{
                     str = GIT_BRANCH.split('/').last()
-                    echo ${str}
+                    echo "${str}"
                     }
                 }
             }

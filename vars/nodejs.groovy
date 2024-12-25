@@ -2,7 +2,7 @@ def call(Map params = [:]) {
 
     def args = [
             COMPONENT                  : '',
-            LABEL                      : ''
+            LABEL                      : 'master'
     ]
     args << params
     pipeline{
@@ -12,9 +12,12 @@ def call(Map params = [:]) {
         }
         stages{
 
-            stage('Build'){
+            stage('Download NodeJS Dependencies'){
                 steps{
-                    sh 'echo build code'
+                    sh """
+                    npm install
+                    """
+
                 }
             }
 

@@ -31,8 +31,11 @@ def call(Map params = [:]) {
             }
 
             stage('uplode artifacts') {
-                steps {
-                    sh'echo upload artifacts'
+                when {
+                    expression { sh(returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags') }
+                }
+                script {
+                   sh'echo upload artifacts'
                 }
 
             }

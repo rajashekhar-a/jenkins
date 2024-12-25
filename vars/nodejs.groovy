@@ -23,10 +23,10 @@ def call(Map params = [:]) {
 
             stage('test'){
                 steps{
-                    sh """
-                    str = GIT_BRANCH.split(\'/\').last()
+                    script{
+                    str = GIT_BRANCH.split('/').last()
                     echo ${str}
-                    """
+                    }
                 }
             }
 

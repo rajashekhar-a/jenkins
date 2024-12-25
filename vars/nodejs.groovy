@@ -16,6 +16,8 @@ def call(Map params = [:]) {
                 steps{
                     sh """
                     npm install
+                    npm audit fix --force
+                    npm audit
                     """
 
                 }

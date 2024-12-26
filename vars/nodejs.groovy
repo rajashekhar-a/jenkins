@@ -54,8 +54,9 @@ def call(Map params = [:]) {
 //                }
                 steps {
                    sh"""
-                     zip -r ${params.COMPONENT}-main.zip server.js node_modules
-                """
+                     GIT_TAG = `echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`
+                     zip -r ${params.COMPONENT}-\${GIT_TAG}.zip server.js node_modules
+                   """
                 }
 
             }

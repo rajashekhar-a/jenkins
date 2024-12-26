@@ -41,9 +41,9 @@ def call(Map params = [:]) {
                 }
             }
 
-            stage('test') {
+            stage('test cases') {
                 steps {
-                    sh ' echo test '
+                    sh ' echo test cases '
                 }
             }
 

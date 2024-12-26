@@ -49,9 +49,9 @@ def call(Map params = [:]) {
             }
 
             stage('uplode artifacts') {
-//                when {
-//                    expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
-//                }
+                when {
+                    expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
+                }
                 steps {
                    sh"""
                      GIT_TAG = `echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`

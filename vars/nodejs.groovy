@@ -48,11 +48,13 @@ def call(Map params = [:]) {
             }
 
             stage('uplode artifacts') {
-                when {
-                    expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
-                }
+//                when {
+//                    expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
+//                }
                 steps {
-                   sh'echo upload artifacts'
+                   sh"""
+                     zip -r ${params.COMPONENT}-main.zip server.js node_modules
+                """
                 }
 
             }

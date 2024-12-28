@@ -11,9 +11,38 @@ def call(Map params = [:]) {
             label params.lABEL
         }
         stages {
-            stage('test') {
+
+            stage('labeling build') {
                 steps {
-                    sh ' echo test '
+                    script {
+                        str = GIT_BRANCH.split('/').last()
+                        addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${params.COMPONENT}"
+                        addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "BRANCH = ${str}"
+                    }
+                }
+            }
+
+            stage('Submit Code Quality') {
+                steps {
+                    sh """
+                      #sonar-scanner -Dsonar.projectKey=${params.COMPONENT} -Dsonar.sources=. -Dsonar.host.url=http://172.31.39.179:9000 -Dsonar.token=sqp_b67d70b6d68c9af9a9a23efcb4df943ad8be35e9
+                      env
+                    """
+                }
+            }
+
+            stage('Check Code Quality Gate') {
+                steps {
+                    sh """
+                      #sonar-quality-gate.sh admin admin123 172.31.39.179 ${params.COMPONENT}
+                      echo ok
+                      """
+                }
+            }
+
+            stage('test cases') {
+                steps {
+                    sh ' echo test cases '
                 }
             }
 
@@ -22,9 +51,19 @@ def call(Map params = [:]) {
                     expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) }
                 }
                 steps {
-                    sh'echo upload artifacts'
+                    sh"""
+                     GIT_TAG=`echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`
+                     zip -r ${params.COMPONENT}-\${GIT_TAG}.zip server.js node_modules
+                     curl -v -u admin:admin123 --upload-file ${params.COMPONENT}-\${GIT_TAG}.zip http://172.31.35.162:8081/repository/${params.COMPONENT}/${params.COMPONENT}-\${GIT_TAG}.zip
+                   """
                 }
 
+            }
+
+        }
+        post {
+            always {
+                cleanWs()
             }
 
         }

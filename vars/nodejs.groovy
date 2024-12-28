@@ -66,7 +66,7 @@ def call(Map params = [:]) {
                    sh"""
                      GIT_TAG=`echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`
                      zip -r ${params.COMPONENT}-\${GIT_TAG}.zip server.js node_modules
-                      curl -v -u admin:admin12345 --upload-file ${params.COMPONENT}-\${GIT_TAG}.zip http://172.31.38.170:8081/repository/${params.COMPONENT}/${params.COMPONENT}-\${GIT_TAG}.zip
+                     curl -v -u admin:admin123 --upload-file ${params.COMPONENT}-\${GIT_TAG}.zip http://172.31.35.162:8081/repository/${params.COMPONENT}/${params.COMPONENT}-\${GIT_TAG}.zip
                    """
                 }
 

@@ -61,8 +61,8 @@ def call(Map params = [:]) {
                 steps {
                     sh"""
                      GIT_TAG=`echo ${GIT_BRANCH} | awk -F / '{print \$NF}'`
-                     cp target/shipping-1.0.jar shipping.jar
-                     zip -r ${params.COMPONENT}-\${GIT_TAG}.zip shipping.jar
+                     cp target/${params.COMPONENT}-1.0.jar ${params.COMPONENT}.jar
+                     zip -r ${params.COMPONENT}-\${GIT_TAG}.zip ${params.COMPONENT}.jar
                      curl -v -u admin:admin123 --upload-file ${params.COMPONENT}-\${GIT_TAG}.zip http://172.31.35.162:8081/repository/${params.COMPONENT}/${params.COMPONENT}-\${GIT_TAG}.zip
                    """
                 }

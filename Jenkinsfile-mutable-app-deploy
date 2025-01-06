@@ -27,7 +27,7 @@ pipeline {
     stage('Check Artifact') {
       steps {
         sh '''
-          curl -u ${NEXUS} -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=cart" -H "accept: application/json" | jq ".items[].name"
+          curl -u ${NEXUS} -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=${COMPONENT}" -H "accept: application/json" | jq ".items[].name"
         '''
       }
     }

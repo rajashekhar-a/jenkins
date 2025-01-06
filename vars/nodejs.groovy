@@ -73,10 +73,11 @@ def call(Map params = [:]) {
 
 
             stage ('App Deployment -Dev Env') {
-                script {
-                  GIT_TAG = GIT_BRANCH.split('/').last()
-                }
+
                 steps {
+                    script {
+                        GIT_TAG = GIT_BRANCH.split('/').last()
+                    }
                     build job: 'app-deploy', parameters: [
                       string(name: 'ENV', value: 'dev'),
                       string(name: 'APP_VERSION', value: "${GIT_TAG}"),

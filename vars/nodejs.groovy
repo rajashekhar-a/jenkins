@@ -69,7 +69,20 @@ def call(Map params = [:]) {
                      curl -v -u admin:admin123 --upload-file ${params.COMPONENT}-\${GIT_TAG}.zip http://172.31.35.162:8081/repository/${params.COMPONENT}/${params.COMPONENT}-\${GIT_TAG}.zip
                    """
                 }
+            }
 
+
+            stage ('App Deployment -Dev Env') {
+                script {
+                  GIT_TAG = GIT_BRANCH.split('/').last()
+                }
+                steps {
+                    build job: 'app-deploy', parameters: [
+                      string(name: 'ENV', value: 'dev'),
+                      string(name: 'APP_VERSION', value: "${GIT_TAG}"),
+                      string(name: 'COMPONENT', value: "${params.COMPONENT}")
+                    ]
+                }
             }
 
         }

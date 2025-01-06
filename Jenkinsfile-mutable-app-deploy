@@ -1,6 +1,6 @@
 pipeline {
-  agent any
 
+  agent any
 
   parameters {
     string(name: 'ENV', defaultValue: '', description: 'Which Environment?')
@@ -10,20 +10,10 @@ pipeline {
 
   stages {
 
-    stage('Labeling Build') {
-      steps {
-        script {
-          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
-          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
-          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
-        }
-      }
-    }
-
     stage('Check Artifact') {
       steps {
         sh '''
-          curl -u admin:admin123 -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=${COMPONENT}" -H "accept: application/json" | jq ".items[].name"
+          curl -u admin:admin123 -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=cart" -H "accept: application/json" | jq ".items[].name"
         '''
       }
     }

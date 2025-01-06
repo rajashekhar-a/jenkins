@@ -2,6 +2,10 @@ pipeline {
 
   agent any
 
+  environment {
+    NEXUS = credentials("NEXUS")
+  }
+
   parameters {
     string(name: 'ENV', defaultValue: '', description: 'Which Environment?')
     string(name: 'APP_VERSION', defaultValue: '', description: 'Which Version of APP?')
@@ -23,7 +27,20 @@ pipeline {
     stage('Check Artifact') {
       steps {
         sh '''
-          curl -u admin:admin123 -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=cart" -H "accept: application/json" | jq ".items[].name"
+          curl -u ${NEXUS} -X GET "http://172.31.35.162:8081/service/rest/v1/components?repository=cart" -H "accept: application/json" | jq ".items[].name"
+        '''
+      }
+    }
+
+    stage('App Deployment') {
+      steps {
+        git branch: 'main', url: "https://github.com/rajashekhar-a/${COMPONENT}.git"
+        sh '''
+          cd terraform-mutable
+          export TF_VAR_APP_VERSION=${APP_VERSION}
+          export TF_VAR_NEXUS_USER=${NEXUS_USR}
+          export TF_VAR_NEXUS_PASS=${NEXUS_PSW}
+          make ${ENV}-apply
         '''
       }
     }

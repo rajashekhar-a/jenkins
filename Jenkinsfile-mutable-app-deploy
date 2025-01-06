@@ -10,6 +10,16 @@ pipeline {
 
   stages {
 
+    stage('Labeling Build') {
+      steps {
+        script {
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
+        }
+      }
+    }
+
     stage('Check Artifact') {
       steps {
         sh '''

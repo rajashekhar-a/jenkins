@@ -1,9 +1,6 @@
 pipeline {
   agent any
 
-  options {
-   ansicolour('xterm')
-  }
 
   parameters {
     string(name: 'ENV', defaultValue: '', description: 'Which Environment?')
@@ -16,9 +13,9 @@ pipeline {
     stage('Labeling Build') {
       steps {
         script {
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
-          addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "ENV = ${ENV}"
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "APP_VERSION = ${APP_VERSION}"
+          addBadge background: 'yellow', color: 'black', borderColor: 'yellow', text: "COMPONENT = ${COMPONENT}"
         }
       }
     }

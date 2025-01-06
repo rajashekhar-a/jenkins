@@ -1,0 +1,55 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'ENV', defaultValue: '', description: 'Which Environment?')
+  }
+
+
+  stages {
+
+    stage('Repo Clone') {
+      steps {
+        dir('terraform') {
+          git branch: 'main', url: 'https://github.com/rajashekhar-a/terraform-mutable.git'
+        }
+      }
+    }
+
+    stage('VPC') {
+      steps {
+        dir('terraform') {
+          sh '''
+            cd vpc
+            make ${ENV}-apply
+          '''
+        }
+      }
+    }
+
+    stage('DB-&-ALB') {
+      parallel {
+
+        stage('DB') {
+          steps {
+            dir('terraform') {
+              sh '''
+                cd db
+                make ${ENV}-apply
+              '''
+            }
+          }
+        }
+
+        stage('ALB') {
+          steps {
+            dir('terraform') {
+              sh '''
+                cd alb
+                make ${ENV}-apply
+              '''
+            }
+          }
+        }
+  }
+}
